@@ -1,6 +1,9 @@
-﻿namespace NREPatch
+﻿using Verse;
+
+namespace NREPatch
 {
-    public class Class1
+    [StaticConstructorOnStartup]
+    static class HarmonyPatches
     {
     }
 }
