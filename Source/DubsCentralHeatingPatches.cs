@@ -1,16 +1,13 @@
 ﻿using System.Linq;
-using DubsCentralHeating;
-using HarmonyLib;
 using Verse;
+using DubsCentralHeating;
 
 namespace NREPatch
 {
     
-    static class DubsCentralHeating
+    static class DubsCentralHeatingPatches
     {
-        [HarmonyPatch(typeof(HygienePipeMapComp), nameof(HygienePipeMapComp.RefreshInternetsOnTile))]
-        [HarmonyPrefix]
-        static bool Prefix(int tile)
+        static bool RefreshInternetsOnTile(int tile)
         {
             Log.Message($"[NREP] Checking RefreshInternetsOnTile for tile {tile}");
             if (Find.Maps.Count(x => x.Tile == tile) < 2)
@@ -21,11 +18,11 @@ namespace NREPatch
                 Log.Message("[NREP] Null plumbing nets for tile");
                 return false;
             }
-            foreach (PlumbingNet plumbingNet in list)
+            foreach (var plumbingNet in list)
             {
                 if (plumbingNet == null)
                 {
-                    Log.Message($"null plumbing net");
+                    Log.Message($"[NREP] A plumbing net was null. {list.ToStringSafeEnumerable()}");
                 }
 
                 return false;
