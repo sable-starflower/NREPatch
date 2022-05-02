@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NREPatch", "NREPatch\NREPatch.csproj", "{EFF918A5-0654-4AFD-A06A-F65218B35267}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NREPatch", "Source\NREPatch.csproj", "{EFF918A5-0654-4AFD-A06A-F65218B35267}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

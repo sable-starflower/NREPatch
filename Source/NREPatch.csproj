@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <OutputPath>../1.3/Assemblies</OutputPath>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <TargetFramework>net472</TargetFramework>
+        <DebugType>None</DebugType>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="packages.config" />
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3326">
+            <ExcludeAssets>runtime</ExcludeAssets>
+            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Lib.Harmony" Version="2.2.1.0">
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+        <Reference Include="DubsCentralHeating">
+          <HintPath>..\..\Dubs-Central-Heating\1.3\Assemblies\DubsCentralHeating.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>
