@@ -1,1 +1,2 @@
 - [ ] create template for new rimworld mods https://www.jetbrains.com/help/rider/Creating_and_Opening_Projects_and_Solutions.html#create-custom-project-template
+- [ ] use loadfolders from VEF https://github.com/AndroidQuazar/VanillaExpandedFramework/wiki/Toggable-patches
