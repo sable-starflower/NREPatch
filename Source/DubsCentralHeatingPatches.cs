@@ -1,18 +1,22 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Verse;
 using DubsCentralHeating;
+using JetBrains.Annotations;
 
 namespace NREPatch
 {
     
     public static class DubsCentralHeatingPatches
     {
-        public static bool RefreshInternetsOnTile(int tile)
+        [UsedImplicitly]
+        public static bool RefreshInternetsOnTile(ref int ___MasterInternetID,  int tile)
         {
-            NREPLog.Debug($"Checking RefreshInternetsOnTile for tile {tile}");
-            if (Find.Maps.Count(x => x.Tile == tile) < 2)
+            NREPLog.Debug($"Checking RefreshInternetsOnTile for tile {tile} (MasterInternetID={___MasterInternetID})");
+            if (Find.Maps.Count<Map>((Func<Map, bool>) (x => x.Tile == tile)) < 2)
                 return false;
-            var list = PlumbingNet.AllTileNets(tile)?.ToList();
+            var list = PlumbingNet.AllTileNets(tile)?.ToList<PlumbingNet>();
             if (list == null)
             {
                 NREPLog.Message($"Null plumbing nets for tile {tile}");
@@ -23,14 +27,48 @@ namespace NREPatch
                 if (plumbingNet == null)
                 {
                     NREPLog.Message($"A plumbing net in the list was null. {list.ToStringSafeEnumerable()}");
+                    continue;
                 }
-
-                return false;
+                plumbingNet.IP = -1;
+                plumbingNet.slave = false;
             }
-
-            NREPLog.Debug($"Couldn't find any issue with plumbing nets on tile {tile}, running unpatched code");
-
-            return true;
+            for (var net = list.FirstOrDefault((Func<PlumbingNet, bool>) (x => x.IP == -1)); net != null; net = list.FirstOrDefault((Func<PlumbingNet, bool>) (x => x.IP == -1)))
+            {
+                ++___MasterInternetID;
+                net.IP = ___MasterInternetID;
+                net.slave = true;
+                foreach (var plumbingNet1 in list)
+                {
+                    var overnet = plumbingNet1;
+                    if (overnet != net && net.cells.Any((Func<IntVec3, bool>) (cell => cell.InBounds(overnet.PipeComp.map) && overnet.PipeComp.PerfectMatch(cell, (PipeType) net.NetType, overnet.NetID))))
+                    {
+                        if (overnet.IP != -1)
+                        {
+                            foreach (PlumbingNet plumbingNet2 in list.Where((Func<PlumbingNet, bool>) (x => x.IP == overnet.IP)))
+                                plumbingNet2.IP = net.IP;
+                        }
+                        overnet.IP = net.IP;
+                    }
+                }
+            }
+            foreach (var source in list.GroupBy((Func<PlumbingNet, int>) (x => x.IP)))
+            {
+                var plumbingNet3 = source.First();
+                plumbingNet3.slave = false;
+                foreach (var plumbingNet4 in source)
+                {
+                    foreach (var pipedThing in plumbingNet4.PipedThings)
+                        plumbingNet3.PipedThings.Add(pipedThing);
+                }
+                plumbingNet3.InitNet();
+                foreach (var plumbingNet5 in source)
+                {
+                    foreach (var pipedThing in plumbingNet3.PipedThings)
+                        plumbingNet5.PipedThings.Add(pipedThing);
+                    plumbingNet5.InitNet();
+                }
+            }
+            return false;
         }
     }
 }
