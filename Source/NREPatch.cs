@@ -6,7 +6,7 @@ namespace NREPatch
 {
     [StaticConstructorOnStartup]
     [UsedImplicitly]
-    static class NREPatch
+    internal static class NREPatch
     {
         static NREPatch()
         {

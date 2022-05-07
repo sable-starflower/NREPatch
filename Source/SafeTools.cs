@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using Verse;
 
 namespace NREPatch
 {
@@ -20,12 +21,12 @@ namespace NREPatch
         /**
          * Get info on a method if the assembly containing it is loaded.
          */
-        public static MethodInfo? GetMethod(String assemblyName, String className, String methodName)
+        public static MethodInfo? GetMethod(string assemblyName, string className, string methodName)
         {
             return FindClass(assemblyName, className)?.GetMethod(methodName);
         }
         
-        public static Type? FindClass(String assemblyName, String className)
+        public static Type? FindClass(string assemblyName, string className)
         {
             NREPLog.Debug($"Looking for class {className} in assembly {assemblyName}");
             var asm = Lookup.Assembly(assemblyName);
@@ -58,9 +59,9 @@ namespace NREPatch
          */
         public static MethodInfo? ConditionalPatch(
             this Harmony harmony,
-            String assemblyName,
-            String className,
-            String methodName,
+            string assemblyName,
+            string className,
+            string methodName,
             Type? patchClass,
             MethodInfo? prefix = null)
         {
@@ -85,7 +86,7 @@ namespace NREPatch
                 prefixMethod = new HarmonyMethod(patchClass.GetMethod(methodName));
             }
 
-            var originalMethod = SafeTools.GetMethod(assemblyName, className, methodName);
+            var originalMethod = GetMethod(assemblyName, className, methodName);
             if (originalMethod == null)
             {
                 NREPLog.Debug($"{className}.{methodName} not found, skipping");
@@ -110,12 +111,9 @@ namespace NREPatch
             _assemblyDict = null;
         }
 
-        public static Assembly? Assembly(String assemblyName)
+        public static Assembly? Assembly(string assemblyName)
         {
-            if (_assemblyDict == null)
-            {
-                _assemblyDict = InitializeAssemblyDict();
-            }
+            _assemblyDict ??= InitializeAssemblyDict();
             return _assemblyDict.GetValueOrDefault(assemblyName);
         }
 
@@ -129,7 +127,7 @@ namespace NREPatch
                 if (asm != null)
                 {
                     NREPLog.Debug($"Adding assembly {asm.GetName().Name} to lookup dictionary (fullname={asm.FullName})");
-                    assemblyDict.Add(asm.GetName().Name, asm);
+                    assemblyDict.AddDistinct(asm.GetName().Name, asm);
                 }
             }
 

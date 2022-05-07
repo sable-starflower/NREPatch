@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace NREPatch
@@ -12,7 +11,7 @@ namespace NREPatch
     {
         public static bool DEBUG = false;
         
-        public static void Debug(String message)
+        public static void Debug(string message)
         {
             if (DEBUG)
             {
@@ -21,12 +20,12 @@ namespace NREPatch
 
         }
 
-        public static void Message(String message)
+        public static void Message(string message)
         {
             Log.Message($"[NREP] {message}");
         }
 
-        public static void Warning(String message)
+        public static void Warning(string message)
         {
             Log.Warning($"[NREP] {message}");
         }
