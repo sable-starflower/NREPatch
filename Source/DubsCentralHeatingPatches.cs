@@ -14,7 +14,12 @@ namespace NREPatch
         public static bool RefreshInternetsOnTile(ref int ___MasterInternetID,  int tile)
         {
             NREPLog.Debug($"Checking RefreshInternetsOnTile for tile {tile} (MasterInternetID={___MasterInternetID})");
-            if (Find.Maps.Count<Map>((Func<Map, bool>) (x => x.Tile == tile)) < 2)
+            if (Find.Maps.Count<Map>((Func<Map, bool>) (x =>
+                {
+                    if (x != null) return x.Tile == tile;
+                    NREPLog.Debug("Avoiding NRE for null map returned from Verse.");
+                    return false;
+                })) < 2)
                 return false;
             var list = PlumbingNet.AllTileNets(tile)?.ToList<PlumbingNet>();
             if (list == null)
