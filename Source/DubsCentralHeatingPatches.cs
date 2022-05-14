@@ -42,14 +42,20 @@ namespace NREPatch
                 ++___MasterInternetID;
                 net.IP = ___MasterInternetID;
                 net.slave = true;
-                foreach (var plumbingNet1 in list)
+                foreach (var overnet in list)
                 {
-                    var overnet = plumbingNet1;
-                    if (overnet != net && net.cells.Any((Func<IntVec3, bool>) (cell => cell.InBounds(overnet.PipeComp.map) && overnet.PipeComp.PerfectMatch(cell, (PipeType) net.NetType, overnet.NetID))))
+                    if (overnet == net)
+                        continue;
+                    if (overnet.PipeComp == null)
+                    {
+                        NREPLog.Message($"PlumbingNet {overnet.NetID} (NetType={overnet.NetType}) had a null PipeComp");
+                        continue;
+                    }
+                    if (net.cells.Any((Func<IntVec3, bool>) (cell => cell.InBounds(overnet.PipeComp.map) && overnet.PipeComp.PerfectMatch(cell, (PipeType) net.NetType, overnet.NetID))))
                     {
                         if (overnet.IP != -1)
                         {
-                            foreach (PlumbingNet plumbingNet2 in list.Where((Func<PlumbingNet, bool>) (x => x.IP == overnet.IP)))
+                            foreach (var plumbingNet2 in list.Where((Func<PlumbingNet, bool>) (x => x.IP == overnet.IP)))
                                 plumbingNet2.IP = net.IP;
                         }
                         overnet.IP = net.IP;

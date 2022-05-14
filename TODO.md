@@ -25,3 +25,11 @@ Verse.TickManager:TickManagerUpdate ()
 (wrapper dynamic-method) Verse.Game:Verse.Game.UpdatePlay_Patch2 (Verse.Game)
 (wrapper dynamic-method) Verse.Root_Play:Verse.Root_Play.Update_Patch0 (Verse.Root_Play)
 ```
+
+### tracking down OOM issue
+
+- fix existing known NPEs in case one of them is the root issue
+  - `RimWorld.Pawn_StyleObserverTracker.UpdateStyleDominanceThoughtIndex (System.Single styleDominance, System.Single pointsThreshold, System.Int32 lastIndex) [0x0002b] in <9472cef786a241bbb917e810bc0a1328>:0`
+- narrow down which mod(s) are causing it
+  1. first, graph memory usage and make sure it's actually going up until it runs out
+  2. make a copy of the save and remove mods one by one until i don't see the memory usage climbing anymore
