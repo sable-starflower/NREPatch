@@ -62,29 +62,13 @@ namespace NREPatch
             string assemblyName,
             string className,
             string methodName,
-            Type? patchClass,
-            MethodInfo? prefix = null)
+            MethodInfo? prefix = null,
+            MethodInfo? transpiler = null,
+            MethodInfo? postfix = null,
+            MethodInfo? finalizer = null
+            )
         {
             NREPLog.Debug($"Attempting to patch {className}.{methodName}");
-
-            if (patchClass == null)
-            {
-                NREPLog.Debug($"Could not find patch class for {className}");
-                return null;
-            }
-
-            HarmonyMethod? prefixMethod = null;
-            if (prefix != null)
-            {
-                var prefixMethodInfo = patchClass.GetMethod(methodName);
-                if (prefixMethodInfo == null)
-                {
-                    NREPLog.Warning($"Could not find expected method {methodName} to patch in {patchClass.Name}");
-                    return null;
-                }
-
-                prefixMethod = new HarmonyMethod(patchClass.GetMethod(methodName));
-            }
 
             var originalMethod = GetMethod(assemblyName, className, methodName);
             if (originalMethod == null)
@@ -93,7 +77,13 @@ namespace NREPatch
                 return null;
             }
 
-            var methodInfo = harmony.Patch(originalMethod, prefix: prefixMethod);
+            var methodInfo = harmony.Patch(
+                original: originalMethod,
+                prefix: prefix != null ? new HarmonyMethod(prefix) : null,
+                transpiler: transpiler != null ? new HarmonyMethod(transpiler) : null,
+                postfix: postfix != null ? new HarmonyMethod(postfix) : null,
+                finalizer: finalizer != null ? new HarmonyMethod(finalizer) : null
+                );
 
             NREPLog.Message($"{className}.{methodName} patched.");
 

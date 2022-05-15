@@ -7,6 +7,7 @@
   - [ ] generate release artifacts
   - [ ] bump version numbers in about.xml and manifest.xml
   - [ ] push tagged releases to steam
+- [ ] convert patches to Finalizers
 
 ### NREs seen in the wild
 

@@ -18,15 +18,18 @@ namespace NREPatch
                 assemblyName: "DubsCentralHeating",
                 className: "HygienePipeMapComp",
                 methodName: "RefreshInternetsOnTile",
-                patchClass: typeof(DubsCentralHeatingPatches),
-                prefix: typeof(DubsCentralHeatingPatches).GetMethod("RefreshInternetsOnTile")
+                prefix: typeof(DubsCentralHeatingPatches).GetMethod("RefreshInternetsOnTile"),
+                finalizer: typeof(DubsCentralHeatingPatches).GetMethod("RefreshInternetsOnTile_ExceptionCatcher")
             );
 
+            // handy code to find all patchers of an original method
+            /*
             var patches = Harmony.GetPatchInfo(typeof(Section).GetMethod("RegenerateLayers"));
             foreach (var patcher in patches.Owners)
             {
                 NREPLog.Debug($"{patcher} is patching Verse.Section.RegenerateLayers");
             }
+            */
 
             SafeTools.Cleanup();
         }
