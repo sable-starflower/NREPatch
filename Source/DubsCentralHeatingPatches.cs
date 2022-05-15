@@ -10,6 +10,11 @@ namespace NREPatch
     
     public static class DubsCentralHeatingPatches
     {
+        static Exception RefreshInternetsOnTile_ExceptionCatcher(Exception __exception)
+        {
+            return __exception;
+        }
+
         [UsedImplicitly]
         public static bool RefreshInternetsOnTile(ref int ___MasterInternetID,  int tile)
         {
