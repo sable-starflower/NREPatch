@@ -27,6 +27,53 @@ Verse.TickManager:TickManagerUpdate ()
 (wrapper dynamic-method) Verse.Root_Play:Verse.Root_Play.Update_Patch0 (Verse.Root_Play)
 ```
 
+```
+Exception processing alert Z_MoreAlerts.Alert_AsceticBedroomQuality: System.NullReferenceException: Object reference not set to an instance of an object
+  at Z_MoreAlerts.Alert_AsceticBedroomQuality+<AffectedPawns>d__3.MoveNext () [0x00092] in <e0b73d8c298a4052b4355d4c5b382db7>:0
+  at System.Collections.Generic.List`1[T]..ctor (System.Collections.Generic.IEnumerable`1[T] collection) [0x00077] in <eae584ce26bc40229c1b1aa476bfa589>:0
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0
+  at Z_MoreAlerts.Alert_AsceticBedroomQuality.GetReport () [0x0001c] in <e0b73d8c298a4052b4355d4c5b382db7>:0
+  at RimWorld.Alert.Recalculate () [0x00000] in <9472cef786a241bbb917e810bc0a1328>:0
+  at (wrapper dynamic-method) RimWorld.AlertsReadout.RimWorld.AlertsReadout.CheckAddOrRemoveAlert_Patch1(RimWorld.AlertsReadout,RimWorld.Alert,bool)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+(wrapper dynamic-method) Verse.Log:Verse.Log.Error_Patch4 (string)
+Verse.Log:ErrorOnce (string,int)
+(wrapper dynamic-method) RimWorld.AlertsReadout:RimWorld.AlertsReadout.CheckAddOrRemoveAlert_Patch1 (RimWorld.AlertsReadout,RimWorld.Alert,bool)
+RimWorld.AlertsReadout:AlertsReadoutUpdate ()
+(wrapper dynamic-method) RimWorld.UIRoot_Play:RimWorld.UIRoot_Play.UIRootUpdate_Patch1 (RimWorld.UIRoot_Play)
+(wrapper dynamic-method) Verse.Root:Verse.Root.Update_Patch1 (Verse.Root)
+(wrapper dynamic-method) Verse.Root_Play:Verse.Root_Play.Update_Patch1 (Verse.Root_Play)
+```
+
+```
+Got ThingsListAt out of bounds: (244, 0, 282)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+(wrapper dynamic-method) Verse.Log:Verse.Log.Error_Patch4 (string)
+Verse.Log:ErrorOnce (string,int)
+(wrapper dynamic-method) Verse.ThingGrid:Verse.ThingGrid.ThingsListAt_Patch1 (Verse.ThingGrid,Verse.IntVec3)
+VUIE.OverlayWorker_Chairs/<>c:<.ctor>b__2_2 (Verse.IntVec3)
+System.Linq.Enumerable:Any<Verse.IntVec3> (System.Collections.Generic.IEnumerable`1<Verse.IntVec3>,System.Func`2<Verse.IntVec3, bool>)
+VUIE.OverlayWorker_Chairs/<>c:<.ctor>b__2_1 (Verse.Thing)
+VUIE.OverlayWorker_Chairs:Notify_BuildingChanged (Verse.Thing)
+VUIE.CoverageOverlays:BuildingCheck (Verse.Thing)
+(wrapper dynamic-method) Verse.Thing:Verse.Thing.SpawnSetup_Patch2 (Verse.Thing,Verse.Map,bool)
+(wrapper dynamic-method) Verse.ThingWithComps:Verse.ThingWithComps.SpawnSetup_Patch2 (Verse.ThingWithComps,Verse.Map,bool)
+(wrapper dynamic-method) Verse.Building:Verse.Building.SpawnSetup_Patch1 (Verse.Building,Verse.Map,bool)
+(wrapper dynamic-method) Verse.GenSpawn:Verse.GenSpawn.Spawn_Patch2 (Verse.Thing,Verse.IntVec3,Verse.Map,Verse.Rot4,Verse.WipeMode,bool)
+Verse.GenSpawn:SpawnBuildingAsPossible (Verse.Building,Verse.Map,bool)
+(wrapper dynamic-method) Verse.Map:Verse.Map.FinalizeLoading_Patch1 (Verse.Map)
+(wrapper dynamic-method) Verse.Game:Verse.Game.LoadGame_Patch6 (Verse.Game)
+Verse.SavedGameLoaderNow:LoadGameFromSaveFileNow (string)
+Verse.Root_Play/<>c:<Start>b__1_1 ()
+Verse.LongEventHandler:RunEventFromAnotherThread (System.Action)
+Verse.LongEventHandler/<>c:<UpdateCurrentAsynchronousEvent>b__27_0 ()
+System.Threading.ThreadHelper:ThreadStart_Context (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object)
+System.Threading.ThreadHelper:ThreadStart ()
+```
+
 ### tracking down OOM issue
 
 - fix existing known NPEs in case one of them is the root issue
